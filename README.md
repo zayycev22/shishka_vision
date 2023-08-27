@@ -11,7 +11,7 @@
 Загрузка зависимостей
 ```
 cd frontend
-npm install
+npm install --legacy-peer-deps
 ```
 Запуск frontend приложения
 ```
