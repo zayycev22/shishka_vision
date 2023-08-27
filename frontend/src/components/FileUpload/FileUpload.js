@@ -13,14 +13,38 @@ const FileUpload = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const formData = new FormData()
 
+    function transformData(response) {
+        const transformedList = [];
+
+        for (const key in response) {
+            if (typeof response[key] === "object") {
+                const sublist = [key, ...Object.values(response[key])];
+                transformedList.push(sublist);
+            } else {
+                transformedList.push([key, response[key]]);
+            }
+        }
+        return transformedList;
+    }
+
     function handleClick() {
         let name = fileInputRef.current.files[0].name
+        setIsLoading(true)
         formData.append("file", fileInputRef.current.files[0])
-        axios.post("/dataset", formData,
-            {headers: {"Content-Type": "multipart/form-data"}}).then(res => {
-            props.setData(res.data)
-            props.setStateScreen(1)
-        })
+        if(platformTg==="TGStat" || platformTg==="livedune"){
+            axios.post(`/${platform}/file/?=${platformTg}`, formData,
+                {headers: {"Content-Type": "multipart/form-data"}}).then(res => {
+                props.setData(transformData(res.data))
+                props.setStateScreen(1)
+            })
+        }
+        else {
+            axios.post(`/${platform}/file`, formData,
+                {headers: {"Content-Type": "multipart/form-data"}}).then(res => {
+                props.setData(transformData(res.data))
+                props.setStateScreen(1)
+            })
+        }
     }
 
     function handleChangeType(event){
@@ -59,7 +83,7 @@ const FileUpload = (props) => {
                         <RadioGroup
                             row
                         >
-                            <FormControlLabel style={{color: "#00F43A"}} value="tgStat"
+                            <FormControlLabel style={{color: "#00F43A"}} value="TGStat"
                                               control={<Radio style={{color: "#00F43A"}}/>} label="TGStat"/>
                             <FormControlLabel style={{color: "#00F43A"}} value="livedune"
                                               control={<Radio style={{color: "#00F43A"}}/>} label="LIVEDUNE"/>
@@ -88,7 +112,9 @@ const FileUpload = (props) => {
                         <Button onClick={handleClick} style={sendButton}>
                             Обработать изображения
                         </Button>
-                        <CircularProgress style={{color: "#00F43A"}}></CircularProgress>
+                        {!!isLoading &&
+                            <CircularProgress style={{color: "#00F43A"}}></CircularProgress>
+                        }
                     </div>
                 </div>
             }

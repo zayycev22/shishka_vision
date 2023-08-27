@@ -9,24 +9,30 @@ const TableCsv = (props) => {
     useEffect(() => {
         let new_data = props.data
         setRows(new_data)
+        if(new_data[0][1][2]) setHead(["Изображение", "Подписчики", "Просмотры"])
+        else setHead(["Изображение", "Целевой показатель"])
+
     }, [props.data])
 
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableBody>
+                    <TableRow
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell align={"center"} style={{color: "#FFFFFF", background: "#272727"}}>{head[0]}</TableCell>
+                        <TableCell align={"center"} style={{color: "#FFFFFF",background: "#272727"}} >{head[1]}</TableCell>
+                        <TableCell align={"center"} style={{color: "#FFFFFF",background: "#272727"}} >{head[2] && head[2]}</TableCell>
+                    </TableRow>
                     {props.data.map((row, index) => (
                         <TableRow
                             key={row.name}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF", background: "#272727"}}>{row[1]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[5]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}}>{row[17]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}}>{row[6]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}}>{row[7]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}}>{row[11]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}}>{row[9]}</TableCell>
+                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF", background: "#272727"}}>{row[1][0]}</TableCell>
+                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[1][1]}</TableCell>
+                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[1][2] && row[1][2]}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
