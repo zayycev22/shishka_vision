@@ -32,7 +32,7 @@ const FileUpload = (props) => {
         setIsLoading(true)
         formData.append("file", fileInputRef.current.files[0])
         if(platformTg==="TGStat" || platformTg==="livedune"){
-            axios.post(`/${platform}/file/?${platformTg}`, formData,
+            axios.post(`/${platform}/file/?platform=${platformTg}`, formData,
                 {headers: {"Content-Type": "multipart/form-data"}}).then(res => {
                 props.setData(transformData(res.data))
                 props.setStateScreen(1)
