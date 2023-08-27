@@ -30,9 +30,9 @@ const TableCsv = (props) => {
                             key={row.name}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF", background: "#272727"}}>{row[1][0]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[1][1]}</TableCell>
-                            <TableCell align={index ? "right" : "center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[1][2] && row[1][2]}</TableCell>
+                            <TableCell align={"center"} style={{color: "#FFFFFF", background: "#272727"}}>{row[1][0]}</TableCell>
+                            <TableCell align={"center"} style={{color: "#FFFFFF",background: "#272727"}} >{Number(row[1][1]).toFixed(2)}</TableCell>
+                            <TableCell align={"center"} style={{color: "#FFFFFF",background: "#272727"}} >{row[1][2] && Number(row[1][2]).toFixed(2)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
