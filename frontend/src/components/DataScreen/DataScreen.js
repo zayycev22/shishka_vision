@@ -1,50 +1,46 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyles from "./styles";
-import {Button} from "@mui/material";
-import iconBack from "../../images/IconBack.svg"
+import { Button } from "@mui/material";
+import iconBack from "../../images/IconBack.svg";
+import { saveAs } from 'file-saver';
 import TableCsv from "../TableCsv/TableCsv";
 
 const DataScreen = (props) => {
 
     const classes = useStyles();
-    const [content, setContent] = useState(null)
+    const [content, setContent] = useState(null);
 
     useEffect(() => {
-        if(props.data !== null){
-            let data = props.data
-            data = data.split("\n")
-            let arrayOfArrays = data.map(str => str.split(','));
-            arrayOfArrays.splice(11, 1)
-            setContent(arrayOfArrays)
+        if (props.data !== null) {
+            let data = props.data;
+            setContent(Object.entries(data));
         }
-    }, [])
+    }, []);
 
-    function downloadData(){
-        const blob = new Blob([props.data], { type: "text/csv" });
-        // Создание ссылки для скачивания файла
-        const downloadLink = document.createElement("a");
-        downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = "answer.csv";
-        downloadLink.click();
+    function downloadCSV(data) {
+        const transformedData = props.data // Подставьте функцию transformData
+        const csvContent = arrayToCSV(transformedData);
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+        saveAs(blob, "processed_data.csv");
     }
 
-    function goToBack(){
-        props.setStateScreen(0)
-
+    function goToBack() {
+        props.setStateScreen(0);
     }
 
     return (
         <div className={classes.container}>
             <div className={classes.titleContainer}>
-                <img onClick={goToBack} src={iconBack} className={classes.imgContainer}/>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-                    <Button onClick={downloadData} style={downloadButton}>
-                        Скачать обработанный датасет
+                <img onClick={goToBack} src={iconBack} className={classes.imgContainer} />
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                    <Button onClick={() => downloadCSV(content)} style={downloadButton}>
+                        Скачать обработанный датасет в CSV
                     </Button>
                 </div>
             </div>
             {!!content &&
-                <TableCsv data={content}/>
+                <TableCsv data={content} />
             }
         </div>
     );
@@ -65,4 +61,14 @@ let downloadButton = {
     color: "#181818",
     marginLeft: "15vw",
     height: "6vh"
+}
+
+// Преобразование массива данных в строку CSV
+function arrayToCSV(data) {
+    const csvRows = [];
+    for (const row of data) {
+        const csvRow = row.map(value => `"${value}"`).join(",");
+        csvRows.push(csvRow);
+    }
+    return csvRows.join("\n");
 }
