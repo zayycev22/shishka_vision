@@ -9,7 +9,7 @@ import fon from "../src/images/svg_fon.svg"
 function App() {
     return (
         <div className="App">
-            <img style={{width: 1224, height: 162, marginTop: "80px"}} src={logo}/>
+            <img style={{width: 900, marginTop: "80px"}} src={logo}/>
             <InitPage/>
             <footer className="App-footer">
                 <img className={"image"} src={image1}/>

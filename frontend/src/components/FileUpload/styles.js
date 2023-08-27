@@ -19,7 +19,7 @@ export default makeStyles(theme => ({
         borderRadius: "50px",
         background: "#181818",
         width: "50vw",
-        height: "50vh",
+        height: "70vh",
         marginBottom: "10vh",
     },
 
