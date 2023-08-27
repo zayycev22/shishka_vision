@@ -25,9 +25,17 @@ pythom -m venv backend/venv
 backend\venv\Scripts\Activate.ps1
 ```
 Установка необходимых пакетов:
+
+Будьте очень осторожны, зависимости очень чувствительные
 ```
+pip install pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 pip install -r ./backend/requirements.txt
 ```
+Если у вас проблемы с Cuda то просто измените немного файл config.py
+```
+reader = Reader(lang_list=['ru', 'en'], gpu=False)
+```
+
 Запуск backend приложения
 ```
 python ./backend/main.py
